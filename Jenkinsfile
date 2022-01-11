@@ -22,6 +22,11 @@ pipeline {
                 echo 'Build Automation'
             }
         }
+        stage('Parallel Stage Tests') {
+            when {
+		branch 'main'
+	    }
+	    parallel {
 		stage('E2E Tests') {
 			steps {
 				echo 'Execute Unit Tests'
@@ -36,7 +41,10 @@ pipeline {
 			steps {
 				echo 'Execute Security Tests'
 			}
-		}			
+		}		    
+	    }	
+        }
+			
         stage('Build & Push Images') {
             steps {
                 echo 'Build & Push Docker Images to Registry'
